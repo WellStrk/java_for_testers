@@ -7,12 +7,13 @@ public class SquareTests {
 
     @Test
     void canCalculateArea() {
-        var result = Square.Area(5.0);
+        var s = new Square(5.0); //Вызов конструктора объекта. Передаём в кач-ве параметра сторону квадрата
+        var result = s.Area(); // Вызов метода (функции) Area в этом объекте. Метод берёт необходимый параметр из объекта, в котором он вызывается
         Assertions.assertEquals(25.0, result);
     }
 
     @Test
     void canCalculatePerimeter() {
-        Assertions.assertEquals(20.0, Square.perimeter(5.0));
+        Assertions.assertEquals(20.0, new Square(5.0).perimeter());
     }
 }

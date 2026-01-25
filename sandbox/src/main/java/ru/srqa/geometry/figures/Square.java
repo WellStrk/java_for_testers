@@ -1,16 +1,27 @@
 package ru.srqa.geometry.figures;
 
 public class Square {
-    public static double Area(double a) {
-        return a * a;
+    /* опишем структуру объектов этого класса Square. Каждый объект будет хранить инфу о квадрате (сторону).
+    Описание структуры храниться внутри класса, а не функции */
+
+    private double side; //Свойство объекта. Каждый объект типа Square будет иметь свойство side. (Можно указать как private, public или ничего)
+
+    public Square(double side) {   /*конструктор с параметром (для инициализации объектов этого класса). side - параметр для
+    передачи инфы, необходимой для инициализации объекта. Внутри конструктора необходимо сохранить эту инфу в создаваемом объекте */
+        this.side = side;  /* this - для доступа к текущему объекту. Мы хотим присвоить значение в свойство side у этого
+        текущего объекта. Первое side - свойство объекта, второе side - параметр функции */
     }
 
-    public static void printSquareArea(double side) {
-        String text = String.format("Площадь квадрата со стороной %f = %f", side, Area(side));
+    public static void printSquareArea(Square s) {  //ф-ция, в которой передаётся не число, а объект
+        String text = String.format("Площадь квадрата со стороной %f = %f", s.side, s.Area());
         System.out.println(text);
     }
 
-    public static double perimeter(double a) {
-        return a * 4;
+    public double Area() {
+        return this.side * this.side; //Данные для вычисления площади берутся не из параметров ф-ции, а из текущего объекта.
+    }
+
+    public double perimeter() {
+        return this.side * 4;
     }
 }
