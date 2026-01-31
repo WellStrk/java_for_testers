@@ -3,6 +3,11 @@ package ru.srqa.geometry.figures;
 public record Rectangle(double side1, double side2) { /* Альтернативное задание объектов и конструкторов. Вместо class
  используем ключевое слово record, а после имени класса указывается набор свойств*/ 
 
+    public Rectangle {
+        if (side1 < 0 || side2 < 0)
+            throw new IllegalArgumentException("Стороны прямоугольника не должны быть равны нулю");
+    }
+
     public static void printRectangleArea(double side1, double side2) {
         var text = String.format("Площадь прямоугольника со сторонами %f и %f = %f", side1, side2, RectangleArea(side1, side2));
         System.out.println(text);
