@@ -9,22 +9,18 @@ public class Triangle {
         this.side1 = side1;
         this.side2 = side2;
         this.side3 = side3;
+        if (side1 <= 0 || side2 <= 0 || side3 <= 0)
+            throw new IllegalArgumentException("Стороны треугольника должны быть меньше нуля!");
+        if ((side1 + side2 <= side3) || (side3 + side2 <= side1) || (side1 + side3 <= side2))
+            throw new IllegalArgumentException("Треугольника с такими сторонами не существует!");
     }
 
     public static void printTriangleArea(Triangle ABC) {
-        if (!ABC.isTriangleExist()) {
-            System.out.println("Такого треугольника не существует!");
-            return;
-        }
         var text = String.format("Площадь треугольника со сторонами %f, %f и %f = %f", ABC.side1, ABC.side2, ABC.side3, ABC.Area());
         System.out.println(text);
     }
 
     public static void printTrianglePerimeter(Triangle ABC) {
-        if (!ABC.isTriangleExist()) {
-            System.out.println("Такого треугольника не существует!");
-            return;
-        }
         var text = String.format("Периметр треугольника со сторонами %f, %f и %f = %f", ABC.side1, ABC.side2, ABC.side3, ABC.Perimeter());
         System.out.println(text);
     }
@@ -39,21 +35,5 @@ public class Triangle {
     public double Perimeter() {
 
         return side1 + side2 + side3;
-    }
-
-    public boolean isTriangleExist() {
-        if (side1 <= 0 || side2 <= 0 || side3 <= 0) {
-            return false;
-        }
-        if (side1 + side2 <= side3) {
-            return false;
-        }
-        if (side3 + side2 <= side1) {
-            return false;
-        }
-        if (side1 + side3 <= side2) {
-            return false;
-        }
-        return true;
     }
    }
