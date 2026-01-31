@@ -1,7 +1,21 @@
 package ru.srqa.geometry.figures;
 
+import java.util.Objects;
+
 public record Rectangle(double side1, double side2) { /* Альтернативное задание объектов и конструкторов. Вместо class
- используем ключевое слово record, а после имени класса указывается набор свойств*/ 
+ используем ключевое слово record, а после имени класса указывается набор свойств*/
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return (Double.compare(this.side1, rectangle.side1) == 0 && Double.compare(this.side2, rectangle.side2) == 0)
+                || (Double.compare(this.side2, rectangle.side1) == 0 && Double.compare(this.side1, rectangle.side2) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
 
     public Rectangle {
         if (side1 < 0 || side2 < 0)
