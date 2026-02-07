@@ -1,3 +1,5 @@
+package tests;
+
 import manager.ApplicationManager;
 import model.Group;
 import org.junit.jupiter.api.Test;
