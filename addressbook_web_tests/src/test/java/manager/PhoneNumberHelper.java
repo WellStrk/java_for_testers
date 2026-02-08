@@ -9,12 +9,35 @@ public class PhoneNumberHelper extends HelperBase{
         super(manager);
     }
 
+    public boolean isPhoneNumberPresent() {
+        OpenHomePage();
+        return !manager.isElementPresent(By.name("selected[]"));
+    }
+
+    public void OpenHomePage() {
+        click(By.linkText("home"));
+    }
 
     public void createPhoneNumber(PhoneNumber NumberData) {
         openPhoneNumberPage();
         fillPhoneNumberForm(NumberData);
         SubmitPhoneNumberCreation();
         ReturnToHomePage();
+    }
+
+    public void removePhoneNumber() {
+        OpenHomePage();
+        SelectPhoneNumber();
+        RemoveSelectedPhoneNumber();
+        ReturnToHomePage();
+    }
+
+    private void RemoveSelectedPhoneNumber() {
+        click(By.name("delete"));
+    }
+
+    private void SelectPhoneNumber() {
+        click(By.name("selected[]"));
     }
 
     private void ReturnToHomePage() {
@@ -25,7 +48,7 @@ public class PhoneNumberHelper extends HelperBase{
         click(By.name("submit"));
     }
 
-    public void openPhoneNumberPage() {
+    private void openPhoneNumberPage() {
         if (!manager.isElementPresent(By.name("new"))) {
             click(By.linkText("add new"));
         }

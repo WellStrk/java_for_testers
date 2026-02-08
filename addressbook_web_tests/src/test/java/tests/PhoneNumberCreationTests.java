@@ -1,5 +1,4 @@
 package tests;
-
 import model.PhoneNumber;
 import org.junit.jupiter.api.Test;
 
