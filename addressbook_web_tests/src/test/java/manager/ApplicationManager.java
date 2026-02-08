@@ -11,6 +11,7 @@ public class ApplicationManager {
     protected WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
+    private PhoneNumberHelper number;
 
     public void init(String browser) {
         if (driver == null) {
@@ -40,6 +41,13 @@ public class ApplicationManager {
             groups = new GroupHelper(this);
         }
         return groups;
+    }
+
+    public PhoneNumberHelper number() {
+        if (number == null) {
+            number = new PhoneNumberHelper(this);
+        }
+        return number;
     }
 
 
