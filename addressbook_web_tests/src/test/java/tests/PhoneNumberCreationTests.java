@@ -1,9 +1,11 @@
 package tests;
+import model.Group;
 import model.PhoneNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PhoneNumberCreationTests extends TestBase {
@@ -35,10 +37,21 @@ public class PhoneNumberCreationTests extends TestBase {
       @ParameterizedTest
       @MethodSource("PhoneNumberProvider")
       public void canCreateMultiplePhoneNumber(PhoneNumber phone) {
-        int PhoneNumberCount = app.number().getNumberCount();
+        var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
         app.number().createPhoneNumber(phone);
-        int newPhoneNumberCount = app.number().getNumberCount();
-        Assertions.assertEquals(PhoneNumberCount + 1, newPhoneNumberCount);
+        var newPhoneNumber = app.number().getNumbersList();
+        Comparator<PhoneNumber> compareById = (o1, o2) -> {
+          return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newPhoneNumber.sort(compareById);
+        var expectedList = new ArrayList<>(oldPhoneNumber);
+        expectedList.add(phone
+                .withId(newPhoneNumber.get(newPhoneNumber.size() - 1).id())
+                .withAddress("")
+                .withEmail("")
+                .withMobile(""));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newPhoneNumber,  expectedList);
       }
 
 
@@ -51,9 +64,9 @@ public class PhoneNumberCreationTests extends TestBase {
   @ParameterizedTest
   @MethodSource ("negativePhoneNumberProvider")
   public void cannotCreatePhoneNumber(PhoneNumber phone) {
-    int PhoneNumberCount = app.number().getNumberCount();
+    var oldPhoneNumber = app.number().getNumbersList();
     app.number().createPhoneNumberWithIncorrectParameters(phone);
-    int newPhoneNumberCount = app.number().getNumberCount();
-    Assertions.assertEquals(PhoneNumberCount, newPhoneNumberCount);
+    var newPhoneNumber = app.number().getNumbersList();
+    Assertions.assertEquals(oldPhoneNumber, newPhoneNumber);
   }
 }

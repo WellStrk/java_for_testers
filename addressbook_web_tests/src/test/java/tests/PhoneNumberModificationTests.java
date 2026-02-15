@@ -15,7 +15,7 @@ public class PhoneNumberModificationTests extends TestBase{
         }
         var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
         var rnd = new Random();
-        var index = rnd.nextInt(oldPhoneNumber.size()); //выбираетс ягруппа, которую модифиц-ем
+        var index = rnd.nextInt(oldPhoneNumber.size()); //выбирается группа, которую модифиц-ем
         var modifiedContact = new PhoneNumber()
                 .withFirstName("modified name")
                 .withLastName("modified last name");

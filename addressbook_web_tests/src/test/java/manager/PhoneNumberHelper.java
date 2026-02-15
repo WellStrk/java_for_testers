@@ -13,10 +13,6 @@ public class PhoneNumberHelper extends HelperBase{
         super(manager);
     }
 
-       public void OpenHomePage() {
-        click(By.linkText("home"));
-    }
-
     public List<PhoneNumber> getNumbersList() {
         OpenHomePage();
         var numbers = new ArrayList<PhoneNumber>();
@@ -117,6 +113,10 @@ public class PhoneNumberHelper extends HelperBase{
         type(By.name("address"), NumberData.address());
         type(By.name("email"), NumberData.email());
         type(By.name("mobile"), NumberData.mobile());
+    }
+
+    public void OpenHomePage() {
+        click(By.linkText("home"));
     }
 
     public int getNumberCount() {
