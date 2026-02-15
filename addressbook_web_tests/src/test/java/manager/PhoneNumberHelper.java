@@ -25,11 +25,22 @@ public class PhoneNumberHelper extends HelperBase{
         ReturnToHomePage();
     }
 
+    public void createPhoneNumberWithIncorrectParameters(PhoneNumber NumberData) {
+        openPhoneNumberPage();
+        fillPhoneNumberForm(NumberData);
+        SubmitPhoneNumberCreation();
+        ReturnToHome();
+    }
+
     public void removePhoneNumber() {
         OpenHomePage();
         SelectPhoneNumber();
         RemoveSelectedPhoneNumber();
         ReturnToHomePage();
+    }
+
+    private void ReturnToHome() {
+        click(By.linkText("home"));
     }
 
     private void RemoveSelectedPhoneNumber() {
@@ -62,5 +73,8 @@ public class PhoneNumberHelper extends HelperBase{
         type(By.name("mobile"), NumberData.mobile());
     }
 
-
+    public int getNumberCount() {
+        OpenHomePage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
 }
