@@ -15,14 +15,19 @@ public class PhoneNumberCreationTests extends TestBase {
         for (var address : List.of("", "address")) {
           for (var email : List.of("", "email@mail.com")) {
             for (var mobile : List.of("", "911")) {
-              result.add(new PhoneNumber(firstname, lastname, address, email, mobile));
+              result.add(new PhoneNumber().withFirstName(firstname).withLastName(lastname).withAddress(address).withEmail(email).withMobile(mobile));
             }
           }
         }
       }
     }
         for (int i = 0; i < 5; i++) {
-          result.add(new PhoneNumber(randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10)));
+          result.add(new PhoneNumber()
+                  .withFirstName(randomString(i * 10))
+                  .withLastName(randomString(i * 10))
+                  .withAddress(randomString(i * 10))
+                  .withEmail(randomString(i * 10))
+                  .withMobile(randomString(i * 10)));
         }
         return result;
       }
@@ -39,7 +44,7 @@ public class PhoneNumberCreationTests extends TestBase {
 
   public static List<PhoneNumber> negativePhoneNumberProvider() {
     var result = new ArrayList<PhoneNumber>(List.of(
-            new PhoneNumber("name'", "", "", "", "")));
+            new PhoneNumber("", "name'", "", "", "", "")));
     return result;
   }
 

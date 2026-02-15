@@ -39,6 +39,19 @@ public class PhoneNumberHelper extends HelperBase{
         ReturnToHomePage();
     }
 
+    public void RemoveAllPhoneNumber() {
+        OpenHomePage();
+        SelectAllPhoneNumber();
+        RemoveSelectedPhoneNumber();
+    }
+
+    private void SelectAllPhoneNumber() {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes) {
+            checkbox.click();
+        }
+    }
+
     private void ReturnToHome() {
         click(By.linkText("home"));
     }
