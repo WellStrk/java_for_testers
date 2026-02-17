@@ -39,8 +39,7 @@ public class PhoneNumberHelper extends HelperBase{
 
     public void modifyPhoneNumber(PhoneNumber phoneNumber, PhoneNumber modifiedPhoneNumber) {
         OpenHomePage();
-        SelectPhoneNumber(phoneNumber);
-        InitNumberModification();
+        InitNumberModification(phoneNumber);
         fillPhoneNumberForm(modifiedPhoneNumber);
         SubmitPhoneModification();
         ReturnToHomePage();
@@ -77,8 +76,8 @@ public class PhoneNumberHelper extends HelperBase{
         click(By.name("update"));
     }
 
-    private void InitNumberModification() {
-        click(By.xpath("//img[@alt=\'Edit\']"));
+    private void InitNumberModification(PhoneNumber phoneNumber) {
+        click(By.xpath(String.format("//input[@value='%s']/ancestor::tr//img[@alt='Edit']", phoneNumber.id())));
     }
     
     private void ReturnToHome() {
