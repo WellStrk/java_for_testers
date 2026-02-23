@@ -1,6 +1,6 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.PhoneNumber;
+import ru.stqa.addressbook.model.PhoneNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

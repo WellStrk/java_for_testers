@@ -1,4 +1,4 @@
-package model;
+package ru.stqa.addressbook.model;
 
 public record PhoneNumber(String id, String firstname, String lastname, String address, String email, String mobile, String photo) {
 

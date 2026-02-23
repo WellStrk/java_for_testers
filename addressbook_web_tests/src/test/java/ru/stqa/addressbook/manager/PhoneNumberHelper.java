@@ -1,5 +1,5 @@
-package manager;
-import model.PhoneNumber;
+package ru.stqa.addressbook.manager;
+import ru.stqa.addressbook.model.PhoneNumber;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

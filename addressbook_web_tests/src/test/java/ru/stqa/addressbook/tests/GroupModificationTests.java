@@ -1,12 +1,12 @@
-package tests;
-import model.Group;
+package ru.stqa.addressbook.tests;
+import ru.stqa.addressbook.model.Group;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-public class GroupModificationTests extends TestBase{
+public class GroupModificationTests extends TestBase {
     @Test
     public void canModifyGroup() {
         if (app.groups().getCount() == 0) {

@@ -1,12 +1,12 @@
-package tests;
-import model.PhoneNumber;
+package ru.stqa.addressbook.tests;
+import ru.stqa.addressbook.model.PhoneNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-public class PhoneNumberModificationTests extends TestBase{
+public class PhoneNumberModificationTests extends TestBase {
 
     @Test
     public void canModifyPhoneNumber() {
