@@ -11,7 +11,7 @@ public class PhoneNumberModificationTests extends TestBase{
     @Test
     public void canModifyPhoneNumber() {
         if (app.number().getNumberCount() == 0) {
-            app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", ""));
+            app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", ""));
         }
         var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
         var rnd = new Random();

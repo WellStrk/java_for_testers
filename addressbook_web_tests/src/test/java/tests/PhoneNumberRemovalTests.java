@@ -15,7 +15,7 @@ public class PhoneNumberRemovalTests extends TestBase {
   @Test
   public void canRemovePhoneNumber() {
     if (app.number().getNumberCount() == 0) {
-      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", ""));
+      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", ""));
     }
     var oldPhoneNumber = app.number().getNumbersList();
     var rnd = new Random();
@@ -30,7 +30,7 @@ public class PhoneNumberRemovalTests extends TestBase {
   @Test
   public void canRemoveAllPhoneNumberAtOnce() {
     if (app.number().getNumberCount() == 0) {
-      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", ""));
+      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", ""));
     }
     app.number().RemoveAllPhoneNumber();
     Assertions.assertEquals(0, app.number().getNumberCount());

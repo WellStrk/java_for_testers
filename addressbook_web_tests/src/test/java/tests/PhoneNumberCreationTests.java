@@ -1,5 +1,4 @@
 package tests;
-import model.Group;
 import model.PhoneNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +16,9 @@ public class PhoneNumberCreationTests extends TestBase {
         for (var address : List.of("", "address")) {
           for (var email : List.of("", "email@mail.com")) {
             for (var mobile : List.of("", "911")) {
-              result.add(new PhoneNumber().withFirstName(firstname).withLastName(lastname).withAddress(address).withEmail(email).withMobile(mobile));
+              for (var photo : List.of("", randomFile("src/test/resources/images"))) {
+                result.add(new PhoneNumber().withFirstName(firstname).withLastName(lastname).withAddress(address).withEmail(email).withMobile(mobile).withPhoto(photo));
+              }
             }
           }
         }
@@ -29,35 +30,47 @@ public class PhoneNumberCreationTests extends TestBase {
                   .withLastName(randomString(i * 10))
                   .withAddress(randomString(i * 10))
                   .withEmail(randomString(i * 10))
-                  .withMobile(randomString(i * 10)));
+                  .withMobile(randomString(i * 10))
+                  .withPhoto(randomFile("src/test/resources/images")));
         }
         return result;
       }
 
-      @ParameterizedTest
-      @MethodSource("PhoneNumberProvider")
-      public void canCreateMultiplePhoneNumber(PhoneNumber phone) {
-        var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
-        app.number().createPhoneNumber(phone);
-        var newPhoneNumber = app.number().getNumbersList();
-        Comparator<PhoneNumber> compareById = (o1, o2) -> {
-          return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-        newPhoneNumber.sort(compareById);
-        var expectedList = new ArrayList<>(oldPhoneNumber);
-        expectedList.add(phone
-                .withId(newPhoneNumber.get(newPhoneNumber.size() - 1).id())
-                .withAddress("")
-                .withEmail("")
-                .withMobile(""));
-        expectedList.sort(compareById);
-        Assertions.assertEquals(newPhoneNumber,  expectedList);
-      }
+  @ParameterizedTest
+  @MethodSource("PhoneNumberProvider")
+  public void canCreateMultiplePhoneNumber(PhoneNumber phone) {
+    var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
+    app.number().createPhoneNumber(phone);
+    var newPhoneNumber = app.number().getNumbersList();
+    Comparator<PhoneNumber> compareById = (o1, o2) -> {
+      return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+    };
+    newPhoneNumber.sort(compareById);
+    var expectedList = new ArrayList<>(oldPhoneNumber);
+    expectedList.add(phone
+            .withId(newPhoneNumber.get(newPhoneNumber.size() - 1).id())
+            .withAddress("")
+            .withEmail("")
+            .withMobile(""));
+    expectedList.sort(compareById);
+    Assertions.assertEquals(expectedList.size(), newPhoneNumber.size());
+    for (int i = 0; i < expectedList.size(); i++) {
+      PhoneNumber expected = expectedList.get(i);
+      PhoneNumber actual = newPhoneNumber.get(i);
+
+      Assertions.assertEquals(expected.id(), actual.id());
+      Assertions.assertEquals(expected.firstname(), actual.firstname());
+      Assertions.assertEquals(expected.lastname(), actual.lastname());
+      Assertions.assertEquals(expected.address(), actual.address());
+      Assertions.assertEquals(expected.email(), actual.email());
+      Assertions.assertEquals(expected.mobile(), actual.mobile());
+    }
+  }
 
 
   public static List<PhoneNumber> negativePhoneNumberProvider() {
     var result = new ArrayList<PhoneNumber>(List.of(
-            new PhoneNumber("", "name'", "", "", "", "")));
+            new PhoneNumber("", "name'", "", "", "", "","")));
     return result;
   }
 

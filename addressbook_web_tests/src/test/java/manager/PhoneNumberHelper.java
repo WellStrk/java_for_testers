@@ -1,9 +1,9 @@
 package manager;
-
-import model.Group;
 import model.PhoneNumber;
 import org.openqa.selenium.By;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +22,12 @@ public class PhoneNumberHelper extends HelperBase{
             var id = checkbox.getAttribute("value");
             var firstname =  tr.findElement(By.cssSelector("td:nth-child(3)"));
             var lastname =  tr.findElement(By.cssSelector("td:nth-child(2)"));
+
             numbers.add(new PhoneNumber()
                     .withId(id)
                     .withFirstName(firstname.getText())
-                    .withLastName(lastname.getText()));
+                    .withLastName(lastname.getText())
+                   );
         }
         return numbers;
     }
@@ -93,6 +95,8 @@ public class PhoneNumberHelper extends HelperBase{
     }
 
     private void ReturnToHomePage() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.elementToBeClickable(By.linkText("home page")));
         click(By.linkText("home page"));
     }
 
@@ -112,6 +116,7 @@ public class PhoneNumberHelper extends HelperBase{
         type(By.name("address"), NumberData.address());
         type(By.name("email"), NumberData.email());
         type(By.name("mobile"), NumberData.mobile());
+        attach(By.name("photo"),NumberData.photo());
     }
 
     public void OpenHomePage() {

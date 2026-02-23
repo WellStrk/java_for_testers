@@ -18,4 +18,12 @@ public class HelperBase {
         manager.driver.findElement(locator).clear();
         manager.driver.findElement(locator).sendKeys(text);
     }
+
+    protected void attach(By locator, String file) {
+        if (file != null && !file.isEmpty()) {
+            manager.driver.findElement(locator).sendKeys(
+                    java.nio.file.Paths.get(file.replace("/", "\\")).toAbsolutePath().toString()
+            );
+        }
+    }
 }
