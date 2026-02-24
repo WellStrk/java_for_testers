@@ -4,9 +4,9 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.yaml.snakeyaml.Yaml;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Group;
+import ru.stqa.addressbook.model.PhoneNumber;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
@@ -54,10 +54,10 @@ public class Generator {
             try (var writer = new FileWriter(output)) {
                 writer.write(json);
             }
-        } if ("yaml".equals(format)) {
+        } else if ("yaml".equals(format)) {
             var mapper = new YAMLMapper();
             mapper.writeValue(new File(output), data);
-        } if ("xml".equals(format)) {
+        } else if ("xml".equals(format)) {
             var mapper = new XmlMapper();
             mapper.writeValue(new File(output), data);
         } else {
@@ -88,7 +88,17 @@ public class Generator {
     }
 
     private Object generatePhoneNumbers() {
-        return null;
+        var result = new ArrayList<PhoneNumber>();
+        for (int i = 0; i < count; i++) {
+            result.add(new PhoneNumber()
+                    .withFirstName(CommonFunctions.randomString(i * 10))
+                    .withLastName(CommonFunctions.randomString(i * 10))
+                    .withEmail(CommonFunctions.randomString(i * 10))
+                    .withMobile(CommonFunctions.randomString(i * 10))
+                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
+                    .withAddress(CommonFunctions.randomString(i * 10)));
+        }
+        return result;
     }
 
 }

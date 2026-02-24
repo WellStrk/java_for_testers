@@ -1,39 +1,30 @@
 package ru.stqa.addressbook.tests;
 import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.Group;
 import ru.stqa.addressbook.model.PhoneNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class PhoneNumberCreationTests extends TestBase {
 
-  public static List<PhoneNumber> PhoneNumberProvider() {
+  public static List<PhoneNumber> PhoneNumberProvider() throws IOException {
     var result = new ArrayList<PhoneNumber>();
-    for (var firstname : List.of("", "name")) {
-      for (var lastname : List.of("", "last name")) {
-        for (var address : List.of("", "address")) {
-          for (var email : List.of("", "email@mail.com")) {
-            for (var mobile : List.of("", "911")) {
-              for (var photo : List.of("", randomFile("src/test/resources/images"))) {
-                result.add(new PhoneNumber().withFirstName(firstname).withLastName(lastname).withAddress(address).withEmail(email).withMobile(mobile).withPhoto(photo));
-              }
-            }
-          }
-        }
-      }
-    }
-        for (int i = 0; i < 5; i++) {
-          result.add(new PhoneNumber()
-                  .withFirstName(CommonFunctions.randomString(i * 10))
-                  .withLastName(CommonFunctions.randomString(i * 10))
-                  .withAddress(CommonFunctions.randomString(i * 10))
-                  .withEmail(CommonFunctions.randomString(i * 10))
-                  .withMobile(CommonFunctions.randomString(i * 10))
-                  .withPhoto(randomFile("src/test/resources/images")));
-        }
+
+    var json = Files.readString(Paths.get("phoneNumbers.json"));  // более короткий способ того что выше
+    ObjectMapper mapper = new ObjectMapper();
+    var value = mapper.readValue(json, new TypeReference<List<PhoneNumber>>() {
+    });
+    result.addAll(value);
         return result;
       }
 

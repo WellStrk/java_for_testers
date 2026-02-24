@@ -23,33 +23,29 @@ public class GroupCreationTests extends TestBase {
 
     public static List<Group> groupProvider() throws IOException {
         var result = new ArrayList<Group>();
-      //  for (var name : List.of("", "group name")) {
-       //     for (var header : List.of("", "group header")) {
-       //         for (var footer : List.of("", "group footer")) {
-       //             result.add(new Group().withName(name).withHeader(header).withFooter(footer));
-       //         }
-       //     }
-      //  }
 
-       // var json = ""; -- другой способ начало
-      //  try (var reader = new FileReader("groups.json");
-      //  var breader = new BufferedReader(reader)
-//) {
-     //       var line = breader.readLine();
-      //      while (line != null) {
+        // var json = ""; -- другой способ начало
+        //  try (var reader = new FileReader("groups.json");
+        //  var breader = new BufferedReader(reader)
+        //) {
+        //       var line = breader.readLine();
+        //      while (line != null) {
         //        json = json + line;
         //        line = breader.readLine();
-       //     }
-   //     } -- другой способ начало конец
+        //     }
+        //     } -- другой способ конец
 
-       //var json = Files.readString(Paths.get("groups.json")); -- более короткий способ того что выше
-       // ObjectMapper mapper = new ObjectMapper();-- для json
-        // var value = mapper.readValue (json, new TypeReference<List<Group>>() {}); -- для json
+        var json = Files.readString(Paths.get("groups.json"));  // более короткий способ того что выше
+        ObjectMapper mapper = new ObjectMapper();
+        var value = mapper.readValue(json, new TypeReference<List<Group>>() {
+        });
+        result.addAll(value);
 
-        var mapper = new XmlMapper();
-        Group[] groups = mapper.readValue(new File("groups.xml"), Group[].class); // читаем как массив
-        result.addAll(Arrays.asList(groups));
-        // result.addAll(value); -- для json
+
+        //   var mapper = new XmlMapper();
+        //  Group[] groups = mapper.readValue(new File("groups.xml"), Group[].class); // читаем как массив
+        //  result.addAll(Arrays.asList(groups));
+
         return result;
     }
 
