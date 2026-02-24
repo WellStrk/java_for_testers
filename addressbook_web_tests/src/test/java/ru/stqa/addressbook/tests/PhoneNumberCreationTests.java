@@ -1,10 +1,9 @@
 package ru.stqa.addressbook.tests;
-import ru.stqa.addressbook.common.CommonFunctions;
-import ru.stqa.addressbook.model.Group;
-import ru.stqa.addressbook.model.PhoneNumber;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.model.PhoneNumber;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
