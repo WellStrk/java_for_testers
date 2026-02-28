@@ -3,6 +3,7 @@ package ru.stqa.addressbook.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Group;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
@@ -44,18 +45,26 @@ public class GroupCreationTests extends TestBase {
         return result;
     }
 
+    public static List<Group> singleRandomGroup() {
+        return List.of(new Group()
+                .withName(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(20))
+                .withFooter(CommonFunctions.randomString(30)));
+    }
+
     @ParameterizedTest
-    @MethodSource ("groupProvider")
-    public void canCreateMultipleGroup(Group group) {
-        var oldGroups = app.groups().getList(); //загрузка списка групп из веб приложения
+    @MethodSource ("singleRandomGroup")
+    public void canCreateGroup(Group group) {
+        var oldGroups = app.jdbc().getGroupList(); //загрузка списка групп из веб приложения
         app.groups().createGroup(group);
-        var newGroups = app.groups().getList();
+        var newGroups = app.jdbc().getGroupList();
         Comparator<Group> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newGroups.sort(compareById);
+        var maxId = newGroups.get(newGroups.size() - 1).id();
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
+        expectedList.add(group.withId(maxId));
         expectedList.sort(compareById);
         Assertions.assertEquals(newGroups,  expectedList);
     }

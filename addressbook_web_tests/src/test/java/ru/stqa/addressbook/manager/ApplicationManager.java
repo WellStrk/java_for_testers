@@ -14,6 +14,7 @@ public class ApplicationManager {
     private LoginHelper session;
     private GroupHelper groups;
     private PhoneNumberHelper number;
+    private jdbcHelper jdbc;
 
     private Properties properties;
 
@@ -63,6 +64,13 @@ public class ApplicationManager {
         } catch (NoSuchElementException exception) {
             return false;
         }
+    }
+
+    public jdbcHelper jdbc() {
+        if (jdbc == null) {
+            jdbc = new jdbcHelper(this);
+        }
+        return jdbc;
     }
 
 }
