@@ -3,27 +3,29 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 import ru.stqa.addressbook.manager.hbm.GroupRecord;
+import ru.stqa.addressbook.manager.hbm.PhoneNumberRecord;
 import ru.stqa.addressbook.model.Group;
+import ru.stqa.addressbook.model.PhoneNumber;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HibernateHelper extends HelperBase{
+public class HibernateHelper extends HelperBase {
 
     private SessionFactory sessionFactory;
 
     public HibernateHelper(ApplicationManager manager) {
         super(manager);
         sessionFactory = new Configuration()
-                // .addAnnotatedClass(Book.class)
+                .addAnnotatedClass(PhoneNumberRecord.class)
                 .addAnnotatedClass(GroupRecord.class)
-                .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
+                .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook?zeroDateTimeBehavior=convertToNull")
                 .setProperty(AvailableSettings.USER, "root")
                 .setProperty(AvailableSettings.PASS, "")
                 .buildSessionFactory();
     }
 
-    static List<Group> convertList(List<GroupRecord> records) {
+    static List<Group> convertGroupList(List<GroupRecord> records) {
         List<Group> result = new ArrayList<>();
         for (var record : records) {
             result.add(convert(record));
@@ -44,7 +46,7 @@ public class HibernateHelper extends HelperBase{
     }
 
     public List<Group> getGroupList() {
-        return convertList(sessionFactory.fromSession(session -> {
+        return convertGroupList(sessionFactory.fromSession(session -> {
             return session.createQuery("from GroupRecord", GroupRecord.class).list();
         }));
     }
@@ -62,4 +64,35 @@ public class HibernateHelper extends HelperBase{
             return session.createQuery("select count (*) from GroupRecord", long.class).getSingleResult();
         });
     }
-}
+
+    static List<PhoneNumber> convertNumberList(List<PhoneNumberRecord> records) {
+        List<PhoneNumber> result = new ArrayList<>();
+        for (var record : records) {
+            result.add(convert(record));
+        }
+        return result;
+    }
+
+    private static PhoneNumber convert(PhoneNumberRecord record) {
+        return new PhoneNumber().withId("" + record.id)
+                .withFirstName(record.firstname)
+                .withLastName(record.lastname)
+                .withAddress(record.address);
+    }
+
+    private static PhoneNumberRecord convert(PhoneNumber data) {
+        var id = data.id();
+        if ("".equals(id)) {
+            id = "0";
+        }
+        return new PhoneNumberRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.address());
+    }
+
+    public List<PhoneNumber> getPhoneNumbersInGroup(Group group) {
+        return sessionFactory.fromSession(session -> {
+            return convertNumberList(session.get(GroupRecord.class, group.id()).phoneNumbers);
+        });
+    }
+    }
+
+

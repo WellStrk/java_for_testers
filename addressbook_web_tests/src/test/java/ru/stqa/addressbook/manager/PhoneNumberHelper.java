@@ -1,4 +1,6 @@
 package ru.stqa.addressbook.manager;
+import org.openqa.selenium.support.ui.Select;
+import ru.stqa.addressbook.model.Group;
 import ru.stqa.addressbook.model.PhoneNumber;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,6 +39,18 @@ public class PhoneNumberHelper extends HelperBase{
         fillPhoneNumberForm(NumberData);
         SubmitPhoneNumberCreation();
         ReturnToHomePage();
+    }
+
+    public void createPhoneNumberInGroup(PhoneNumber NumberData, Group group) {
+        openPhoneNumberPage();
+        fillPhoneNumberForm(NumberData);
+        SelectGroup(group);
+        SubmitPhoneNumberCreation();
+        ReturnToHomePage();
+    }
+
+    private void SelectGroup(Group group) {
+        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
     public void modifyPhoneNumber(PhoneNumber phoneNumber, PhoneNumber modifiedPhoneNumber) {

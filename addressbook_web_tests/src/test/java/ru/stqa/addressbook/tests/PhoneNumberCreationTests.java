@@ -1,12 +1,13 @@
 package ru.stqa.addressbook.tests;
-
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.Group;
 import ru.stqa.addressbook.model.PhoneNumber;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -73,4 +74,22 @@ public class PhoneNumberCreationTests extends TestBase {
     var newPhoneNumber = app.number().getNumbersList();
     Assertions.assertEquals(oldPhoneNumber, newPhoneNumber);
   }
+
+  @Test
+  void canCreatePhoneNumberInGroup () {
+      var phoneNumber = new PhoneNumber()
+              .withFirstName(CommonFunctions.randomString(10))
+              .withLastName(CommonFunctions.randomString(10))
+              .withAddress(CommonFunctions.randomString(10));
+      if (app.hbm().getGroupCount() == 0) {
+        app.hbm().createGroup(new Group("", "", "", ""));
+      }
+      var group = app.hbm().getGroupList().get(0);
+
+      var oldRelated = app.hbm().getPhoneNumbersInGroup(group);
+      app.number().createPhoneNumberInGroup(phoneNumber, group);
+      var newRelated = app.hbm().getPhoneNumbersInGroup(group);
+      Assertions.assertEquals(oldRelated.size()+1, newRelated.size());
+  }
+
 }
