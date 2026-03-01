@@ -9,15 +9,15 @@ import java.util.Random;
 public class GroupModificationTests extends TestBase {
     @Test
     public void canModifyGroup() {
-        if (app.groups().getCount() == 0) {
-            app.groups().createGroup(new Group("", "group name", "group header", "group footer"));
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new Group("", "group name", "group header", "group footer"));
         }
-        var oldGroups = app.groups().getList(); //загрузка списка групп из веб приложения
+        var oldGroups = app.hbm().getGroupList(); //загрузка списка групп из веб приложения
         var rnd = new Random();
         var index = rnd.nextInt(oldGroups.size()); //выбираетс ягруппа, которую модифиц-ем
         var testData = new Group().withName("modified name");
         app.groups().modifyGroup(oldGroups.get(index), testData);
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.set(index, testData.withId(oldGroups.get(index).id()));
         //сортировка (по возрастванию id)
