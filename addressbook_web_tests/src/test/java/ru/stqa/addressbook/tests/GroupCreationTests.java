@@ -55,9 +55,9 @@ public class GroupCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource ("singleRandomGroup")
     public void canCreateGroup(Group group) {
-        var oldGroups = app.jdbc().getGroupList(); //загрузка списка групп из веб приложения
+        var oldGroups = app.hbm().getGroupList(); //загрузка списка групп из веб приложения
         app.groups().createGroup(group);
-        var newGroups = app.jdbc().getGroupList();
+        var newGroups = app.hbm().getGroupList();
         Comparator<Group> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
