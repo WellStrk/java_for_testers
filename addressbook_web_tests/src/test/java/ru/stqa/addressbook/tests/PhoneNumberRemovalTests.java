@@ -15,13 +15,13 @@ public class PhoneNumberRemovalTests extends TestBase {
   @Test
   public void canRemovePhoneNumber() {
     if (app.number().getNumberCount() == 0) {
-      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", ""));
+      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", "", "", "", "", ""));
     }
-    var oldPhoneNumber = app.number().getNumbersList();
+    var oldPhoneNumber = app.hbm().getPhoneNumberList();
     var rnd = new Random();
     var index = rnd.nextInt(oldPhoneNumber.size()); //случайным образом выбираем индекс какого-то элемента из списка oldGroups
     app.number().removePhoneNumber(oldPhoneNumber.get(index));
-    var newPhoneNumber = app.number().getNumbersList();
+    var newPhoneNumber = app.hbm().getPhoneNumberList();
     var expectedList = new ArrayList<>(oldPhoneNumber);
     expectedList.remove(index);
     Assertions.assertEquals(newPhoneNumber,  expectedList);
@@ -29,11 +29,11 @@ public class PhoneNumberRemovalTests extends TestBase {
 
   @Test
   public void canRemoveAllPhoneNumberAtOnce() {
-    if (app.number().getNumberCount() == 0) {
-      app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", ""));
+    if (app.hbm().getPhoneNumberCount() == 0) {
+      app.hbm().createNumber(new PhoneNumber("", "", "", "", "", "", "", "", "", "", ""));
     }
     app.number().RemoveAllPhoneNumber();
-    Assertions.assertEquals(0, app.number().getNumberCount());
+    Assertions.assertEquals(0, app.hbm().getPhoneNumberCount());
   }
 
 }

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static ru.stqa.addressbook.tests.TestBase.app;
+
 public class PhoneNumberCreationTests extends TestBase {
 
   public static List<PhoneNumber> PhoneNumberProvider() throws IOException {
@@ -28,50 +30,51 @@ public class PhoneNumberCreationTests extends TestBase {
         return result;
       }
 
+
+  public static List<PhoneNumber> singleRandomNumber() {
+    return List.of(new PhoneNumber()
+            .withFirstName(CommonFunctions.randomString(10))
+            .withLastName(CommonFunctions.randomString(20))
+            .withAddress(CommonFunctions.randomString(30)));
+  }
+
   @ParameterizedTest
-  @MethodSource("PhoneNumberProvider")
+  @MethodSource("singleRandomNumber")
   public void canCreateMultiplePhoneNumber(PhoneNumber phone) {
-    var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
+    var oldPhoneNumber = app.hbm().getPhoneNumberList(); //загрузка списка групп из веб приложения
     app.number().createPhoneNumber(phone);
-    var newPhoneNumber = app.number().getNumbersList();
+    var newPhoneNumber = app.hbm().getPhoneNumberList();
     Comparator<PhoneNumber> compareById = (o1, o2) -> {
       return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
     };
     newPhoneNumber.sort(compareById);
+    var maxId = newPhoneNumber.get(newPhoneNumber.size() - 1).id();
     var expectedList = new ArrayList<>(oldPhoneNumber);
-    expectedList.add(phone
-            .withId(newPhoneNumber.get(newPhoneNumber.size() - 1).id())
-            .withAddress("")
-            .withEmail("")
-            .withMobile(""));
+    expectedList.add(phone.withId(maxId));
     expectedList.sort(compareById);
-    Assertions.assertEquals(expectedList.size(), newPhoneNumber.size());
-    for (int i = 0; i < expectedList.size(); i++) {
-      PhoneNumber expected = expectedList.get(i);
-      PhoneNumber actual = newPhoneNumber.get(i);
+    Assertions.assertEquals(newPhoneNumber,  expectedList);
 
-      Assertions.assertEquals(expected.id(), actual.id());
-      Assertions.assertEquals(expected.firstname(), actual.firstname());
-      Assertions.assertEquals(expected.lastname(), actual.lastname());
-      Assertions.assertEquals(expected.address(), actual.address());
-      Assertions.assertEquals(expected.email(), actual.email());
-      Assertions.assertEquals(expected.mobile(), actual.mobile());
-    }
   }
 
 
   public static List<PhoneNumber> negativePhoneNumberProvider() {
     var result = new ArrayList<PhoneNumber>(List.of(
-            new PhoneNumber("", "name'", "", "", "", "","")));
+            new PhoneNumber("", "name'", "", "", "", "","", "", "", "", "")));
     return result;
   }
 
   @ParameterizedTest
   @MethodSource ("negativePhoneNumberProvider")
   public void cannotCreatePhoneNumber(PhoneNumber phone) {
-    var oldPhoneNumber = app.number().getNumbersList();
+    var oldPhoneNumber = app.hbm().getPhoneNumberList();
     app.number().createPhoneNumberWithIncorrectParameters(phone);
-    var newPhoneNumber = app.number().getNumbersList();
+    var newPhoneNumber = app.hbm().getPhoneNumberList();
+    Comparator<PhoneNumber> compareById = (o1, o2) -> {
+      return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+    };
+    newPhoneNumber.sort(compareById);
+    var expectedList = new ArrayList<>(oldPhoneNumber);
+    expectedList.sort(compareById);
     Assertions.assertEquals(oldPhoneNumber, newPhoneNumber);
   }
 
@@ -85,11 +88,19 @@ public class PhoneNumberCreationTests extends TestBase {
         app.hbm().createGroup(new Group("", "", "", ""));
       }
       var group = app.hbm().getGroupList().get(0);
-
       var oldRelated = app.hbm().getPhoneNumbersInGroup(group);
       app.number().createPhoneNumberInGroup(phoneNumber, group);
       var newRelated = app.hbm().getPhoneNumbersInGroup(group);
-      Assertions.assertEquals(oldRelated.size()+1, newRelated.size());
+      Comparator<PhoneNumber> compareById = (o1, o2) -> {
+        return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+      };
+      newRelated.sort(compareById);
+      var maxId = newRelated.get(newRelated.size() - 1).id();
+      var expectedList = new ArrayList<>(oldRelated);
+      expectedList.add(phoneNumber.withId(maxId));
+      expectedList.sort(compareById);
+      Assertions.assertEquals(expectedList, newRelated);
   }
-
 }
+
+

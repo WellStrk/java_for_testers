@@ -15,6 +15,10 @@ public class PhoneNumberRecord {
     public String firstname;
     public String lastname;
     public String address;
+    public String middlename;
+    public String nickname;
+    public String company;
+    public String title;
     //public String mobile;
   //  public String email;
  //   public String photo;
@@ -24,12 +28,16 @@ public class PhoneNumberRecord {
     public PhoneNumberRecord() {
     }
 
-    public PhoneNumberRecord(int id, String firstname, String lastname, String address) {
+    public PhoneNumberRecord(int id, String firstname, String lastname, String address, String middlename, String nickname,  String company, String title) {
 
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
+        this.middlename = middlename;
+        this.nickname = nickname;
+        this.company = company;
+        this.title = title;
         //  this.mobile = mobile;
       //  this.email = email;
       //  this.photo = photo;

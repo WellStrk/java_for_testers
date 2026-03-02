@@ -10,17 +10,17 @@ public class PhoneNumberModificationTests extends TestBase {
 
     @Test
     public void canModifyPhoneNumber() {
-        if (app.number().getNumberCount() == 0) {
-            app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", ""));
+        if (app.hbm().getPhoneNumberCount() == 0) {
+            app.hbm().createNumber(new PhoneNumber("", "", "", "", "", "", "", "", "", "", ""));
         }
-        var oldPhoneNumber = app.number().getNumbersList(); //загрузка списка групп из веб приложения
+        var oldPhoneNumber = app.hbm().getPhoneNumberList();
         var rnd = new Random();
         var index = rnd.nextInt(oldPhoneNumber.size()); //выбирается группа, которую модифиц-ем
         var modifiedContact = new PhoneNumber()
                 .withFirstName("modified name")
                 .withLastName("modified last name");
         app.number().modifyPhoneNumber(oldPhoneNumber.get(index), modifiedContact);
-        var newPhoneNumber = app.number().getNumbersList();
+        var newPhoneNumber = app.hbm().getPhoneNumberList();
         var expectedList = new ArrayList<>(oldPhoneNumber);
         expectedList.set(index, modifiedContact.withId(oldPhoneNumber.get(index).id()));
         //сортировка (по возрастванию id)

@@ -65,6 +65,26 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+    public void createNumber(PhoneNumber phoneNumber) {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            session.persist(convert(phoneNumber));
+            session.getTransaction().commit();
+        });
+    }
+
+    public List<PhoneNumber> getPhoneNumberList() {
+        return convertNumberList(sessionFactory.fromSession(session -> {
+            return session.createQuery("from PhoneNumberRecord", PhoneNumberRecord.class).list();
+        }));
+    }
+
+    public long getPhoneNumberCount() {
+        return sessionFactory.fromSession(session -> {
+            return session.createQuery("select count (*) from PhoneNumberRecord", long.class).getSingleResult();
+        });
+    }
+
     static List<PhoneNumber> convertNumberList(List<PhoneNumberRecord> records) {
         List<PhoneNumber> result = new ArrayList<>();
         for (var record : records) {
@@ -85,7 +105,9 @@ public class HibernateHelper extends HelperBase {
         if ("".equals(id)) {
             id = "0";
         }
-        return new PhoneNumberRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.address());
+
+        return new PhoneNumberRecord(Integer.parseInt(id), data.firstname(), data.lastname(),
+                data.address(), data.middlename(), data.nickname(), data.company(), data.title());
     }
 
     public List<PhoneNumber> getPhoneNumbersInGroup(Group group) {
