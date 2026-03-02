@@ -1,4 +1,5 @@
 package ru.stqa.addressbook.manager;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.addressbook.model.Group;
 import ru.stqa.addressbook.model.PhoneNumber;
@@ -48,6 +49,40 @@ public class PhoneNumberHelper extends HelperBase{
         SubmitPhoneNumberCreation();
         ReturnToHomePage();
     }
+
+    public void addPhoneNumberToGroup(PhoneNumber phoneNumber, Group group) {
+        OpenHomePage();
+        SelectPhoneNumber(phoneNumber);
+        selectGroupForAdding(group);
+        clickAddToGroup();
+        ReturnToGroupPage(group);
+    }
+
+    private void ReturnToGroupPage(Group group) {
+        click(By.linkText(String.format("group page \"%s\"", group.name())));
+    }
+
+    public void removePhoneNumberFromGroup(PhoneNumber phoneNumber, Group group) {
+        SelectPhoneNumber(phoneNumber);
+        clickRemoveFromGroup();
+    }
+
+    private void SelectPhoneNumber(PhoneNumber phoneNumber) {
+        click(By.cssSelector(String.format("input[value='%s']", phoneNumber.id())));
+    }
+
+    private void clickRemoveFromGroup() {
+        manager.driver.findElement(By.name("remove")).click();
+    }
+
+    private void selectGroupForAdding(Group group) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+    }
+
+    private void clickAddToGroup() {
+        manager.driver.findElement(By.name("add")).click();
+    }
+
 
     private void SelectGroup(Group group) {
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
@@ -104,9 +139,6 @@ public class PhoneNumberHelper extends HelperBase{
         click(By.name("delete"));
     }
 
-    private void SelectPhoneNumber(PhoneNumber phoneNumber) {
-        click(By.cssSelector(String.format("input[value='%s']", phoneNumber.id())));
-    }
 
     private void ReturnToHomePage() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(3));
