@@ -1,5 +1,4 @@
 package ru.stqa.addressbook.manager;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.addressbook.model.Group;
 import ru.stqa.addressbook.model.PhoneNumber;
@@ -65,6 +64,16 @@ public class PhoneNumberHelper extends HelperBase{
     public void removePhoneNumberFromGroup(PhoneNumber phoneNumber, Group group) {
         SelectPhoneNumber(phoneNumber);
         clickRemoveFromGroup();
+    }
+
+    public void removePhoneNumberFromGroupWithGroupSelection(PhoneNumber phoneNumber, Group group) {
+        selectGroupForSearch(group);
+        SelectPhoneNumber(phoneNumber);
+        clickRemoveFromGroup();
+    }
+
+    private void selectGroupForSearch(Group group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
     }
 
     private void SelectPhoneNumber(PhoneNumber phoneNumber) {

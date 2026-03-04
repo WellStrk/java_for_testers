@@ -101,6 +101,39 @@ public class PhoneNumberCreationTests extends TestBase {
       expectedList.sort(compareById);
       Assertions.assertEquals(expectedList, newRelated);
   }
+
+    @Test
+    void canAddExistingPhoneNumberToGroup() {
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new Group()
+                    .withName(CommonFunctions.randomString(10))
+                    .withHeader("")
+                    .withFooter(""));
+        }
+        if (app.hbm().getPhoneNumberCount() == 0) {
+            var phoneNumber = new PhoneNumber()
+                    .withFirstName(CommonFunctions.randomString(10))
+                    .withLastName(CommonFunctions.randomString(10))
+                    .withAddress(CommonFunctions.randomString(10));
+            app.number().createPhoneNumber(phoneNumber);
+        }
+        var group = app.hbm().getGroupList().get(0);
+        var existingPhoneNumber = app.hbm().getPhoneNumberList().get(0);
+        var phoneNumbersInGroup = app.hbm().getPhoneNumbersInGroup(group);
+        if (phoneNumbersInGroup.stream().anyMatch(p -> p.id().equals(existingPhoneNumber.id()))) {
+            app.number().removePhoneNumberFromGroupWithGroupSelection(existingPhoneNumber, group);
+        }
+        var oldRelated = app.hbm().getPhoneNumbersInGroup(group);
+        app.number().addPhoneNumberToGroup(existingPhoneNumber, group);
+        var newRelated = app.hbm().getPhoneNumbersInGroup(group);
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(existingPhoneNumber);
+        Comparator<PhoneNumber> compareById = (o1, o2) ->
+                Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        expectedList.sort(compareById);
+        newRelated.sort(compareById);
+        Assertions.assertEquals(expectedList, newRelated);
+    }
 }
 
 
