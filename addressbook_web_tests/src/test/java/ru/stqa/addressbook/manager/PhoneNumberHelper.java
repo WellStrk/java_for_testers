@@ -51,10 +51,16 @@ public class PhoneNumberHelper extends HelperBase{
 
     public void addPhoneNumberToGroup(PhoneNumber phoneNumber, Group group) {
         OpenHomePage();
+        ResetGroupFilter();
         SelectPhoneNumber(phoneNumber);
         selectGroupForAdding(group);
         clickAddToGroup();
         ReturnToGroupPage(group);
+    }
+
+    private void ResetGroupFilter() {
+        Select groupSelect = new Select(manager.driver.findElement(By.name("group")));
+        groupSelect.selectByVisibleText("[all]");
     }
 
     private void ReturnToGroupPage(Group group) {
@@ -62,15 +68,11 @@ public class PhoneNumberHelper extends HelperBase{
     }
 
     public void removePhoneNumberFromGroup(PhoneNumber phoneNumber, Group group) {
-        SelectPhoneNumber(phoneNumber);
-        clickRemoveFromGroup();
-    }
-
-    public void removePhoneNumberFromGroupWithGroupSelection(PhoneNumber phoneNumber, Group group) {
         selectGroupForSearch(group);
         SelectPhoneNumber(phoneNumber);
         clickRemoveFromGroup();
     }
+
 
     private void selectGroupForSearch(Group group) {
         new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());

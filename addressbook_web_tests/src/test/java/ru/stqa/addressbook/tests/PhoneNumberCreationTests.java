@@ -121,7 +121,7 @@ public class PhoneNumberCreationTests extends TestBase {
         var existingPhoneNumber = app.hbm().getPhoneNumberList().get(0);
         var phoneNumbersInGroup = app.hbm().getPhoneNumbersInGroup(group);
         if (phoneNumbersInGroup.stream().anyMatch(p -> p.id().equals(existingPhoneNumber.id()))) {
-            app.number().removePhoneNumberFromGroupWithGroupSelection(existingPhoneNumber, group);
+            app.number().removePhoneNumberFromGroup(existingPhoneNumber, group);
         }
         var oldRelated = app.hbm().getPhoneNumbersInGroup(group);
         app.number().addPhoneNumberToGroup(existingPhoneNumber, group);
