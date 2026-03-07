@@ -27,7 +27,9 @@ public record Rectangle(double side1, double side2) { /* Альтернатив�
         System.out.println(text);
     }
 
+
     private static double RectangleArea(double side1, double side2) {
         return side1 * side2;
     }
+
 }

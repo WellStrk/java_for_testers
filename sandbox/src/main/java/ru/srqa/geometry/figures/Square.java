@@ -13,11 +13,16 @@ public record Square(double side) {
         System.out.println(text);
     }
 
+    public static void printSquarePerimeter(Square s) {
+        String text = String.format("Периметр квадрата со стороной %f = %f", s.side, s.Perimeter());
+        System.out.println(text);
+    }
+
     public double Area() {
         return this.side * this.side; //Данные для вычисления площади берутся не из параметров ф-ции, а из текущего объекта.
     }
 
-    public double perimeter() {
+    public double Perimeter() {
         return this.side * 4;
     }
 }

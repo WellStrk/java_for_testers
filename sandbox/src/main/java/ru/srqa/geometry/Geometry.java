@@ -5,22 +5,24 @@ import ru.srqa.geometry.figures.Square;
 import ru.srqa.geometry.figures.Triangle;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class Geometry {
     public static void main(String[] args) {
+        Supplier<Square> randomSquare = () -> new Square(new Random().nextDouble(100.0));
+        var squares = Stream.generate(randomSquare).limit(5);
 
-        var squares = List.of(new Square(7.0),new Square(5.0),new Square(3.0));
-      //  for (Square square : squares) {
-       //     Square.printSquareArea(square);
-       // }
         Consumer<Square> print = (square) -> {
             Square.printSquareArea(square);
+            Square.printSquarePerimeter(square);
         };
-        squares.forEach(print);
+        squares.peek(Square::printSquareArea).forEach(Square::printSquarePerimeter);
 
-       // Rectangle.printRectangleArea(15.0, 3.0);
-       // Rectangle.printRectangleArea(7.0, 5.0);
+        //  Rectangle.printRectangleArea(15.0, 3.0);
+      // Rectangle.printRectangleArea(7.0, 5.0);
 
       //  Triangle.printTriangleArea(new Triangle(20.0, 30.0, 15.0));
       //  Triangle.printTriangleArea(new Triangle(3.0, 4.0, 5.0)); // нулевая сторона
