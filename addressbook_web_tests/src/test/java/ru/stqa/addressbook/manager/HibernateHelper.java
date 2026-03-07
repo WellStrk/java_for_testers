@@ -9,6 +9,7 @@ import ru.stqa.addressbook.model.PhoneNumber;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HibernateHelper extends HelperBase {
 
@@ -26,11 +27,7 @@ public class HibernateHelper extends HelperBase {
     }
 
     static List<Group> convertGroupList(List<GroupRecord> records) {
-        List<Group> result = new ArrayList<>();
-        for (var record : records) {
-            result.add(convert(record));
-        }
-        return result;
+       return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
     }
 
     private static Group convert(GroupRecord record) {
@@ -86,11 +83,7 @@ public class HibernateHelper extends HelperBase {
     }
 
     static List<PhoneNumber> convertNumberList(List<PhoneNumberRecord> records) {
-        List<PhoneNumber> result = new ArrayList<>();
-        for (var record : records) {
-            result.add(convert(record));
-        }
-        return result;
+        return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
     }
 
     private static PhoneNumber convert(PhoneNumberRecord record) {
