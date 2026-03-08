@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static ru.stqa.addressbook.tests.TestBase.app;
-
 public class PhoneNumberCreationTests extends TestBase {
 
   public static List<PhoneNumber> PhoneNumberProvider() throws IOException {
@@ -59,7 +57,7 @@ public class PhoneNumberCreationTests extends TestBase {
 
   public static List<PhoneNumber> negativePhoneNumberProvider() {
     var result = new ArrayList<PhoneNumber>(List.of(
-            new PhoneNumber("", "name'", "", "", "", "","", "", "", "", "")));
+            new PhoneNumber("", "name'", "", "", "", "","", "", "", "", "", "", "")));
     return result;
   }
 

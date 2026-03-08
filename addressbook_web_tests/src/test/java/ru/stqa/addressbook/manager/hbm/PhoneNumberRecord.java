@@ -19,7 +19,9 @@ public class PhoneNumberRecord {
     public String nickname;
     public String company;
     public String title;
-    //public String mobile;
+    public String mobile;
+    public String home;
+    public String work;
   //  public String email;
  //   public String photo;
 
@@ -38,7 +40,9 @@ public class PhoneNumberRecord {
         this.nickname = nickname;
         this.company = company;
         this.title = title;
-        //  this.mobile = mobile;
+        this.mobile = mobile;
+        this.home = home;
+        this.work = work;
       //  this.email = email;
       //  this.photo = photo;
     }

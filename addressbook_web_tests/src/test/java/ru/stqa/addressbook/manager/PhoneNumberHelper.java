@@ -185,4 +185,8 @@ public class PhoneNumberHelper extends HelperBase{
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
+    public String getPhones(PhoneNumber contact) {
+        return manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
+    }
 }
