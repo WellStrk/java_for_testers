@@ -57,7 +57,7 @@ public class PhoneNumberCreationTests extends TestBase {
 
   public static List<PhoneNumber> negativePhoneNumberProvider() {
     var result = new ArrayList<PhoneNumber>(List.of(
-            new PhoneNumber("", "name'", "", "", "", "","", "", "", "", "", "", "")));
+            new PhoneNumber("", "name'", "", "", "", "","", "", "", "", "", "", "", "", "")));
     return result;
   }
 

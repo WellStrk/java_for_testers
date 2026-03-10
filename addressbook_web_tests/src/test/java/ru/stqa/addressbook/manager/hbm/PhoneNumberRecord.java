@@ -22,7 +22,9 @@ public class PhoneNumberRecord {
     public String mobile;
     public String home;
     public String work;
-  //  public String email;
+    public String email;
+    public String email2;
+    public String email3;
  //   public String photo;
 
 
@@ -43,7 +45,9 @@ public class PhoneNumberRecord {
         this.mobile = mobile;
         this.home = home;
         this.work = work;
-      //  this.email = email;
+        this.email = email;
+        this.email2 = email2;
+        this.email3 = email3;
       //  this.photo = photo;
     }
 }
