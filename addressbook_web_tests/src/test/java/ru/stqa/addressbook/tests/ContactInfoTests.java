@@ -11,12 +11,12 @@ public class ContactInfoTests extends TestBase{
     @Test
     void testPhones() {
         var contacts = app.hbm().getPhoneNumberList();
-          //сделать предусловие по провкерке существования контакта
-        var contact = contacts.get(0);
-        var phones = app.number().getPhones(contact); //получение инфы о телефонах (по конкретному контакту)
-        var expected = Stream.of(contact.home(), contact.mobile(), contact.work())
-                .filter(s -> s != null && ! "".equals(s))
-                .collect(Collectors.joining("\n"));
+        var expected =  contacts.stream().collect(Collectors.toMap(contact -> contact.id(), contact ->
+                Stream.of(contact.home(), contact.mobile(), contact.work())
+                        .filter(s -> s != null && !"".equals(s))
+                        .collect(Collectors.joining("\n"))
+        ));
+        var phones = app.number().getPhones();
         Assertions.assertEquals(expected, phones);
+        }
     }
-}

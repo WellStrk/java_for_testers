@@ -55,7 +55,7 @@ public record PhoneNumber(String id,
     public PhoneNumber withTitle(String title) {
         return new PhoneNumber(this.id, this.firstname, this.lastname, this.middlename, this.nickname, this.company, title, this.address, this.email, this.mobile, this.photo, this.home, this.work);
     }
-    public PhoneNumber withHome(String title) {
+    public PhoneNumber withHome(String home) {
         return new PhoneNumber(this.id, this.firstname, this.lastname, this.middlename, this.nickname, this.company, this.title, this.address, this.email, this.mobile, this.photo, home, this.work);
     }
     public PhoneNumber withWork(String work) {
