@@ -45,6 +45,5 @@ public class ContactInfoTests extends TestBase{
         Assertions.assertEquals(expected, emails);
     }
     
-    //тест с обратными проверками для одного контакта
     }
 
