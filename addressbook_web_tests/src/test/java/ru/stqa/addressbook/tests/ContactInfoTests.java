@@ -44,6 +44,6 @@ public class ContactInfoTests extends TestBase{
         var emails = app.number().getEmails();
         Assertions.assertEquals(expected, emails);
     }
-    
+
     }
 
