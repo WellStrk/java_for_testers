@@ -28,13 +28,13 @@ public class RestApiHelper extends HelperBase {
         issue.setProject(projectId);
         var categoryId = new Identifier();
         categoryId.setId(issueData.category());
-        issue.setProject(categoryId);
+        issue.setCategory(categoryId);
 
         IssuesApi apiInstance = new IssuesApi();
         try {
             apiInstance.issueAdd(issue);
         } catch (ApiException e) {
-            new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }
