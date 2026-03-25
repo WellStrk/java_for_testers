@@ -22,4 +22,19 @@ public class UserRegistrationTests extends TestBase {
         app.http().login(username, password);
         Assertions.assertTrue(app.http().isLoggedIn());
     }
+
+
+    @Test
+    void RandomUser() {
+        var username = CommonFunctions.randomString(8);
+        var email = String.format("%s@localhost", username);
+        var password = "password";
+        app.jamesApi().addUser(email, password);
+        app.signup().startRegistration(username, email);
+        List<MailMessage> messages = app.mail().receive(email, password, Duration.ofSeconds(60));
+        var confirmationUrl = app.mail().extractConfirmationUrl(messages.get(0));
+        app.signup().completeRegistration(confirmationUrl, username, password);
+        app.http().login(username, password);
+        Assertions.assertTrue(app.http().isLoggedIn());
+    }
 }
