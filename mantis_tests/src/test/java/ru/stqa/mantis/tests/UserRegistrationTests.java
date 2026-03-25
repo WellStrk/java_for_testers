@@ -27,7 +27,7 @@ public class UserRegistrationTests extends TestBase {
 
 
     @Test
-    void RandomUser() {
+    void canRegisterRandomUser() {
         var username = CommonFunctions.randomString(8);
         var email = String.format("%s@localhost", username);
         var password = "password";
