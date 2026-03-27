@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import ru.stqa.addressbook.model.Group;
 import org.openqa.selenium.By;
 
@@ -19,7 +20,7 @@ public class GroupHelper extends HelperBase{
         }
     }
 
-
+    @Step
     public void createGroup(Group groupData) {
         openGroupsPage();
         initGroupCreation();
@@ -28,6 +29,7 @@ public class GroupHelper extends HelperBase{
         returnToGroupsPage();
     }
 
+    @Step
     public void removeGroup(Group group) {
         openGroupsPage();
         selectGroup(group);

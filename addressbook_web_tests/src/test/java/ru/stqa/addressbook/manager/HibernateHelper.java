@@ -1,4 +1,5 @@
 package ru.stqa.addressbook.manager;
+import io.qameta.allure.Step;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
@@ -42,12 +43,14 @@ public class HibernateHelper extends HelperBase {
         return new GroupRecord(Integer.parseInt(id), data.name(), data.header(), data.footer());
     }
 
+    @Step
     public List<Group> getGroupList() {
         return convertGroupList(sessionFactory.fromSession(session -> {
             return session.createQuery("from GroupRecord", GroupRecord.class).list();
         }));
     }
 
+    @Step
     public void createGroup(Group group) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
@@ -70,6 +73,7 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+    @Step
     public List<PhoneNumber> getPhoneNumberList() {
         return convertNumberList(sessionFactory.fromSession(session -> {
             return session.createQuery("from PhoneNumberRecord", PhoneNumberRecord.class).list();
@@ -109,6 +113,7 @@ public class HibernateHelper extends HelperBase {
                 data.address(), data.middlename(), data.nickname(), data.company(), data.title());
     }
 
+    @Step
     public List<PhoneNumber> getPhoneNumbersInGroup(Group group) {
         return sessionFactory.fromSession(session -> {
             return convertNumberList(session.get(GroupRecord.class, group.id()).phoneNumbers);
