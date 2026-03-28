@@ -1,4 +1,5 @@
 package ru.stqa.addressbook.tests;
+import io.qameta.allure.Allure;
 import ru.stqa.addressbook.model.PhoneNumber;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,11 @@ public class PhoneNumberModificationTests extends TestBase {
 
     @Test
     public void canModifyPhoneNumber() {
+        Allure.step("Checking precondition", step -> {
         if (app.hbm().getPhoneNumberCount() == 0) {
             app.hbm().createNumber(new PhoneNumber("", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
         }
+        });
         var oldPhoneNumber = app.hbm().getPhoneNumberList();
         var rnd = new Random();
         var index = rnd.nextInt(oldPhoneNumber.size()); //выбирается группа, которую модифиц-ем
@@ -29,6 +32,8 @@ public class PhoneNumberModificationTests extends TestBase {
         };
         newPhoneNumber.sort(compareById);
         expectedList.sort(compareById);
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(newPhoneNumber,  expectedList);
+        });
     }
 }

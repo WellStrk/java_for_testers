@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Allure;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Group;
 import ru.stqa.addressbook.model.PhoneNumber;
@@ -17,9 +18,11 @@ public class PhoneNumberRemovalTests extends TestBase {
 
   @Test
   public void canRemovePhoneNumber() {
+    Allure.step("Checking precondition", step -> {
     if (app.number().getNumberCount() == 0) {
       app.number().createPhoneNumber(new PhoneNumber("", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
     }
+    });
     var oldPhoneNumber = app.hbm().getPhoneNumberList();
     var rnd = new Random();
     var index = rnd.nextInt(oldPhoneNumber.size()); //случайным образом выбираем индекс какого-то элемента из списка oldGroups
@@ -27,26 +30,35 @@ public class PhoneNumberRemovalTests extends TestBase {
     var newPhoneNumber = app.hbm().getPhoneNumberList();
     var expectedList = new ArrayList<>(oldPhoneNumber);
     expectedList.remove(index);
+    Allure.step("Validating results", step -> {
     Assertions.assertEquals(newPhoneNumber,  expectedList);
+    });
   }
 
   @Test
   public void canRemoveAllPhoneNumberAtOnce() {
+    Allure.step("Checking precondition", step -> {
     if (app.hbm().getPhoneNumberCount() == 0) {
       app.hbm().createNumber(new PhoneNumber("", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
     }
+    });
     app.number().RemoveAllPhoneNumber();
+    Allure.step("Validating results", step -> {
     Assertions.assertEquals(0, app.hbm().getPhoneNumberCount());
+    });
   }
 
   @Test
   void canRemovePhoneNumberFromGroup () {
+    Allure.step("Checking precondition", step -> {
     if (app.hbm().getGroupCount() == 0) {
       app.hbm().createGroup(new Group()
               .withName(CommonFunctions.randomString(10))
               .withHeader("")
               .withFooter(""));
     }
+    });
+    Allure.step("Checking precondition", step -> {
     if (app.hbm().getPhoneNumberCount() == 0) {
       var phoneNumber = new PhoneNumber()
               .withFirstName(CommonFunctions.randomString(10))
@@ -54,6 +66,7 @@ public class PhoneNumberRemovalTests extends TestBase {
               .withAddress(CommonFunctions.randomString(10));
       app.number().createPhoneNumber(phoneNumber);
     }
+    });
     var group = app.hbm().getGroupList().get(0);
     var phoneNumbersInGroup = app.hbm().getPhoneNumbersInGroup(group);
     if (phoneNumbersInGroup.isEmpty()) {
@@ -72,9 +85,10 @@ public class PhoneNumberRemovalTests extends TestBase {
     };
     expectedList.sort(compareById);
     newRelated.sort(compareById);
+    Allure.step("Validating results", step -> {
     Assertions.assertEquals(expectedList, newRelated);
     Assertions.assertFalse(newRelated.stream()
             .anyMatch(p -> p.id().equals(phoneNumberToRemove.id())));
+    });
   }
-
 }

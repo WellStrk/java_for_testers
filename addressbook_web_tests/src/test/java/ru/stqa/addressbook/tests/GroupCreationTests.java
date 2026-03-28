@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -69,7 +70,9 @@ public class GroupCreationTests extends TestBase {
 
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.add(group.withId(newId));
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(Set.copyOf(newGroups),  Set.copyOf(expectedList));
+        });
     }
 
 
@@ -91,6 +94,8 @@ public class GroupCreationTests extends TestBase {
         newGroups.sort(compareById);
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.sort(compareById);
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(newGroups,  oldGroups);
+        });
     }
 }

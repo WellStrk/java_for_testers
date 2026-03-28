@@ -1,4 +1,5 @@
 package ru.stqa.addressbook.tests;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -50,8 +51,9 @@ public class PhoneNumberCreationTests extends TestBase {
     var expectedList = new ArrayList<>(oldPhoneNumber);
     expectedList.add(phone.withId(maxId));
     expectedList.sort(compareById);
+      Allure.step("Validating results", step -> {
     Assertions.assertEquals(newPhoneNumber,  expectedList);
-
+      });
   }
 
 
@@ -73,7 +75,9 @@ public class PhoneNumberCreationTests extends TestBase {
     newPhoneNumber.sort(compareById);
     var expectedList = new ArrayList<>(oldPhoneNumber);
     expectedList.sort(compareById);
+      Allure.step("Validating results", step -> {
     Assertions.assertEquals(oldPhoneNumber, newPhoneNumber);
+      });
   }
 
   @Test
@@ -82,9 +86,11 @@ public class PhoneNumberCreationTests extends TestBase {
               .withFirstName(CommonFunctions.randomString(10))
               .withLastName(CommonFunctions.randomString(10))
               .withAddress(CommonFunctions.randomString(10));
+      Allure.step("Checking precondition", step -> {
       if (app.hbm().getGroupCount() == 0) {
         app.hbm().createGroup(new Group("", "", "", ""));
       }
+      });
       var group = app.hbm().getGroupList().get(0);
       var oldRelated = app.hbm().getPhoneNumbersInGroup(group);
       app.number().createPhoneNumberInGroup(phoneNumber, group);
@@ -97,17 +103,22 @@ public class PhoneNumberCreationTests extends TestBase {
       var expectedList = new ArrayList<>(oldRelated);
       expectedList.add(phoneNumber.withId(maxId));
       expectedList.sort(compareById);
+      Allure.step("Validating results", step -> {
       Assertions.assertEquals(expectedList, newRelated);
+      });
   }
 
     @Test
     void canAddExistingPhoneNumberToGroup() {
+        Allure.step("Checking precondition", step -> {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new Group()
                     .withName(CommonFunctions.randomString(10))
                     .withHeader("")
                     .withFooter(""));
         }
+        });
+        Allure.step("Checking precondition", step -> {
         if (app.hbm().getPhoneNumberCount() == 0) {
             var phoneNumber = new PhoneNumber()
                     .withFirstName(CommonFunctions.randomString(10))
@@ -115,12 +126,15 @@ public class PhoneNumberCreationTests extends TestBase {
                     .withAddress(CommonFunctions.randomString(10));
             app.number().createPhoneNumber(phoneNumber);
         }
+        });
         var group = app.hbm().getGroupList().get(0);
         var existingPhoneNumber = app.hbm().getPhoneNumberList().get(0);
         var phoneNumbersInGroup = app.hbm().getPhoneNumbersInGroup(group);
+        Allure.step("Checking precondition", step -> {
         if (phoneNumbersInGroup.stream().anyMatch(p -> p.id().equals(existingPhoneNumber.id()))) {
             app.number().removePhoneNumberFromGroup(existingPhoneNumber, group);
         }
+        });
         var oldRelated = app.hbm().getPhoneNumbersInGroup(group);
         app.number().addPhoneNumberToGroup(existingPhoneNumber, group);
         var newRelated = app.hbm().getPhoneNumbersInGroup(group);
@@ -130,7 +144,9 @@ public class PhoneNumberCreationTests extends TestBase {
                 Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         expectedList.sort(compareById);
         newRelated.sort(compareById);
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(expectedList, newRelated);
+        });
     }
 }
 

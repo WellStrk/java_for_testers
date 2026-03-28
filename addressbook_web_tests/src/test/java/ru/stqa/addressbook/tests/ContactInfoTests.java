@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,9 @@ public class ContactInfoTests extends TestBase{
                         .collect(Collectors.joining("\n"))
         ));
         var phones = app.number().getPhones();
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(expected, phones);
+        });
         }
 
     @Test
@@ -29,7 +32,9 @@ public class ContactInfoTests extends TestBase{
                 contact -> contact.address()
         ));
         var addresses = app.number().getAddresses();
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(expected, addresses);
+        });
     }
 
     @Test
@@ -42,8 +47,9 @@ public class ContactInfoTests extends TestBase{
                         .collect(Collectors.joining("\n"))
         ));
         var emails = app.number().getEmails();
+        Allure.step("Validating results", step -> {
         Assertions.assertEquals(expected, emails);
+        });
     }
-
-    }
+}
 
