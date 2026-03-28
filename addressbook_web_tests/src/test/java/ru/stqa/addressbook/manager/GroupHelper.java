@@ -41,6 +41,7 @@ public class GroupHelper extends HelperBase{
         openGroupsPage();
         selectAllGroups();
         removeSelectedGroup();
+        returnToGroupsPage();
     }
 
     public void modifyGroup(Group group, Group modifiedGroup) {

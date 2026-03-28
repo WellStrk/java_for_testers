@@ -8,6 +8,21 @@ import java.util.Random;
 
 public class GroupRemovalTests extends TestBase {
 
+
+    @Test
+    public void canRemoveAllGroupAtOnce() {
+        Allure.step("Checking precondition", step -> {
+            if (app.hbm().getGroupCount() == 0) {
+                app.hbm().createGroup(new Group("", "", "", ""));
+            }
+        });
+        app.groups().removeAllGroups();
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(0, app.hbm().getGroupCount());
+        });
+    }
+
+
        @Test
     public void canRemoveGroup() {
            Allure.step("Checking precondition", step -> {
@@ -25,19 +40,5 @@ public class GroupRemovalTests extends TestBase {
            Allure.step("Validating results", step -> {
                        Assertions.assertEquals(newGroups,  expectedList);
            });
-       }
-
-
-    @Test
-    public void canRemoveAllGroupAtOnce() {
-        Allure.step("Checking precondition", step -> {
-        if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new Group("", "", "", ""));
-        }
-        });
-        app.groups().removeAllGroups();
-        Allure.step("Validating results", step -> {
-        Assertions.assertEquals(0, app.hbm().getGroupCount());
-        });
        }
 }
